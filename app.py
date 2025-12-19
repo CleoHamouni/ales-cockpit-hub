@@ -1,15 +1,15 @@
 import streamlit as st
-from datetime import datetime
 
 st.set_page_config(page_title="IA Cockpit", layout="wide")
 
-# CSS Minimal
+# CSS
 st.markdown("""<style>
-.card{background:white;padding:15px;border-radius:10px;border:1px solid #eee;text-align:center;height:140px;transition:0.3s;}
-.card:hover{border-color:red;transform:translateY(-3px);}
+.card{background:white;padding:15px;border-radius:10px;
+border:1px solid #eee;text-align:center;height:130px;}
+.card:hover{border-color:red;}
 .icon{font-size:25px;}
 .title{font-size:13px;font-weight:bold;}
-a{text-decoration:none !important;color:black;}
+a{text-decoration:none!important;color:black;}
 </style>""", unsafe_allow_html=True)
 
 # SIDEBAR
@@ -22,9 +22,6 @@ if st.sidebar.button("Ajouter"):
         st.rerun()
 for i, x in enumerate(st.session_state.list):
     st.sidebar.checkbox(x, key=f"t_{i}")
-if st.sidebar.button("Vider"):
-    st.session_state.list = []
-    st.rerun()
 
 # RECHERCHE
 st.title("🚀 Sales Cockpit")
@@ -42,5 +39,11 @@ with c2:
 
 st.divider()
 
-# APPLIS
-base = "
+# APPLIS (Lignes très courtes pour éviter les bugs)
+b = "https://"
+s = ".streamlit.app/"
+
+u1 = b + "cv-optimizer-pro-jjfrcz4bzexfn9y9puerq6" + s
+u2 = b + "freelancevscollab-tcjdkokhjktthqet9emwd2" + s
+u3 = b + "go-nogo-ao-guljf7vfdgd8gwbwk2czss" + s
+u4 = b + "ia-discovery-tool-exipby6qyeqodoryc
