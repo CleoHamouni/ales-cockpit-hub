@@ -1,51 +1,62 @@
 import streamlit as st
-import openai
-import pdfplumber
 
 # Configuration de la page
-st.set_page_config(page_title="Cockpit CV Optimizer", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="Sales Cockpit Hub", page_icon="💼", layout="wide")
 
-# Design personnalisé
+# --- STYLE PERSONNALISÉ ---
 st.markdown("""
     <style>
-    .main { background-color: #f8f9fa; }
-    .stProgress > div > div > div > div { background-color: #ef4444; }
-    .score-box { padding: 20px; border-radius: 10px; text-align: center; color: white; font-weight: bold; font-size: 24px; }
+    .main { background-color: #f0f2f6; }
+    .stButton>button { background-color: #007bff; color: white; border-radius: 8px; }
+    .card {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
-st.title("🚀 Cockpit d'Analyse CV Pro")
-st.write("Optimisez le matching entre vos candidats et vos offres d'emploi.")
-
-# Barre latérale pour la clé API
+# --- BARRE LATÉRALE (NAVIGATION) ---
 with st.sidebar:
-    st.header("🔑 Configuration")
-    api_key = st.text_input("Clé API OpenAI", type="password")
-    st.info("Récupérez votre clé sur platform.openai.com")
+    st.title("👨‍✈️ Menu Pilotage")
+    st.subheader("Mes Outils")
+    
+    # BOUTON VERS TA NOUVELLE APPLI CV
+    st.link_button("🎯 Ouvrir l'Analyseur de CV", "https://cv-optimizer-pro-idiwl9xcvopi6orfgqyhjp.streamlit.app/")
+    
+    st.divider()
+    st.caption("Sales Cockpit v2.0")
 
-# Zone de saisie
-col1, col2 = st.columns(2)
+# --- CONTENU PRINCIPAL ---
+st.title("💼 Sales Cockpit : Tableau de Bord")
+
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.subheader("📝 L'Offre d'Emploi")
-    job_desc = st.text_area("Collez la fiche de poste ici :", height=250)
+    st.markdown("""<div class="card">
+        <h3>📈 Performance</h3>
+        <p>Suivez vos KPIs de vente en temps réel.</p>
+    </div>""", unsafe_allow_html=True)
 
 with col2:
-    st.subheader("📄 Le CV du Candidat")
-    uploaded_file = st.file_uploader("Chargez le CV (PDF)", type="pdf")
+    st.markdown("""<div class="card">
+        <h3>🤝 CRM Quick Access</h3>
+        <p>Accès rapide à vos derniers contacts.</p>
+    </div>""", unsafe_allow_html=True)
 
-if st.button("📊 ANALYSER LE MATCHING"):
-    if not api_key or not job_desc or not uploaded_file:
-        st.error("Veuillez remplir tous les champs et ajouter votre clé API.")
-    else:
-        with st.spinner("Analyse en cours par l'IA..."):
-            try:
-                # 1. Extraction du texte
-                with pdfplumber.open(uploaded_file) as pdf:
-                    resume_text = "".join([page.extract_text() for page in pdf.pages])
+with col3:
+    st.markdown("""<div class="card">
+        <h3>📄 Recrutement / Staffing</h3>
+        <p>Utilisez l'IA pour matcher vos candidats.</p>
+    </div>""", unsafe_allow_html=True)
+    # Rappel du lien aussi ici pour plus de visibilité
+    st.link_button("Lancer l'Analyseur CV", "https://cv-optimizer-pro-idiwl9xcvopi6orfgqyhjp.streamlit.app/")
 
-                # 2. IA OpenAI
-                client = openai.OpenAI(api_key=api_key)
-                prompt = f"""
-                Analyse le matching entre ce CV et cette offre.
-                Offre : {job
+st.divider()
+
+# Section Actualités ou Rappels
+st.subheader("📅 Rappels du jour")
+st.checkbox("Relancer le client de l'annonce CV")
+st.checkbox("Vérifier les nouveaux crédits OpenAI")
