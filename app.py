@@ -4,11 +4,11 @@ st.set_page_config(page_title="IA Cockpit", layout="wide")
 
 # CSS
 st.markdown("""<style>
-.card{background:white;padding:15px;border-radius:10px;
-border:1px solid #eee;text-align:center;height:130px;}
+.card{background:white;padding:10px;border-radius:10px;
+border:1px solid #eee;text-align:center;height:120px;}
 .card:hover{border-color:red;}
 .icon{font-size:25px;}
-.title{font-size:13px;font-weight:bold;}
+.title{font-size:12px;font-weight:bold;}
 a{text-decoration:none!important;color:black;}
 </style>""", unsafe_allow_html=True)
 
@@ -39,11 +39,34 @@ with c2:
 
 st.divider()
 
-# APPLIS (Lignes très courtes pour éviter les bugs)
+# APPLIS (DECOUPAGE EXTREME)
 b = "https://"
 s = ".streamlit.app/"
 
-u1 = b + "cv-optimizer-pro-jjfrcz4bzexfn9y9puerq6" + s
-u2 = b + "freelancevscollab-tcjdkokhjktthqet9emwd2" + s
-u3 = b + "go-nogo-ao-guljf7vfdgd8gwbwk2czss" + s
-u4 = b + "ia-discovery-tool-exipby6qyeqodoryc
+# On coupe les liens en morceaux de 20 caracteres
+u1 = b + "cv-optimizer-pro-" + "jjfrcz4bzexfn9y9puerq6" + s
+u2 = b + "freelancevscollab-" + "tcjdkokhjktthqet9emwd2" + s
+u3 = b + "go-nogo-ao-" + "guljf7vfdgd8gwbwk2czss" + s
+u4 = b + "ia-discovery-tool-" + "exipby6qyeqodoryc8p7kj" + s
+u5 = b + "objection-crusher-" + "eickr9egabodnbspah7zgh" + s
+u6 = b + "sales-kpi-tracker-" + "gemm7zlpac7rv5hdkfyesy" + s
+u7 = b + "simulateuria-" + "4geraztakpppefxpsvfp5z" + s
+u8 = b + "account-manager-ia-" + "hwtkfcycxcxcgqtxrhyrez" + s
+
+tools = [
+    ("CV Optimizer", "🎯", u1), ("Marge/Rentab", "⚖️", u2),
+    ("Go/No-Go AO", "🚦", u3), ("IA Discovery", "🔍", u4),
+    ("Objection", "🛡️", u5), ("KPI Tracker", "📈", u6),
+    ("Simu Salaire Staffing", "🤖", u7), ("Account Mgr", "🤝", u8)
+]
+
+# GRILLE
+cols = st.columns(4)
+for i in range(8):
+    with cols[i%4]:
+        st.markdown(f"""<a href="{tools[i][2]}" target="_blank">
+        <div class="card">
+        <div class="icon">{tools[i][1]}</div>
+        <div class="title">{tools[i][0]}</div>
+        </div></a>""", unsafe_allow_html=True)
+        st.write("")
