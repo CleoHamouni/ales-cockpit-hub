@@ -51,4 +51,12 @@ st.sidebar.write(f"📅 {datetime.now().strftime('%d/%m/%Y')}")
 st.sidebar.divider()
 st.sidebar.subheader("📌 To-Do List")
 
-if 'todo_list' not in
+# LIGNE 54 : Voici la ligne qui posait problème, elle est maintenant complète
+if 'todo_list' not in st.session_state:
+    st.session_state.todo_list = [
+        {"task": "Relancer les AO de la veille", "done": False},
+        {"task": "Mettre à jour Salesforce", "done": False}
+    ]
+
+with st.sidebar.form("add_todo", clear_on_submit=True):
+    new_task = st.text_input("Ajouter
