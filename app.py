@@ -5,7 +5,7 @@ from datetime import datetime
 # 1. Configuration de la page
 st.set_page_config(page_title="IA Sales Cockpit", layout="wide", page_icon="🚀")
 
-# 2. Citations de motivation (Mental de Gagnant)
+# 2. Citations de motivation
 quotes = [
     "On ne perd jamais : soit on gagne, soit on apprend.",
     "Le succès, c'est d'aller d'échec en échec sans perdre son enthousiasme.",
@@ -15,7 +15,7 @@ quotes = [
     "La chance sourit aux audacieux."
 ]
 
-# 3. Design CSS personnalisé pour les tuiles
+# 3. Design CSS personnalisé
 st.markdown("""
     <style>
     .main-card {
@@ -42,14 +42,3 @@ st.markdown("""
     .card-desc { font-size: 12px; color: #666666; line-height: 1.2; }
     a { text-decoration: none !important; }
     </style>
-    """, unsafe_allow_html=True)
-
-# --- SIDEBAR (To-Do dynamique & Pense-bête) ---
-st.sidebar.title("📝 Mon Bureau")
-st.sidebar.write(f"📅 {datetime.now().strftime('%d/%m/%Y')}")
-
-st.sidebar.divider()
-st.sidebar.subheader("📌 To-Do List")
-
-# Initialisation de la mémoire pour la To-Do List
-if 'todo_list' not in
