@@ -15,7 +15,7 @@ quotes = [
     "La chance sourit aux audacieux."
 ]
 
-# 3. Design CSS personnalisé
+# 3. Design CSS personnalisé (Vérifié sans erreur de fermeture)
 st.markdown("""
     <style>
     .main-card {
@@ -42,3 +42,42 @@ st.markdown("""
     .card-desc { font-size: 12px; color: #666666; line-height: 1.2; }
     a { text-decoration: none !important; }
     </style>
+    """, unsafe_allow_html=True)
+
+# --- SIDEBAR (To-Do dynamique & Pense-bête) ---
+st.sidebar.title("📝 Mon Bureau")
+st.sidebar.write(f"📅 {datetime.now().strftime('%d/%m/%Y')}")
+
+st.sidebar.divider()
+st.sidebar.subheader("📌 To-Do List")
+
+if 'todo_list' not in st.session_state:
+    st.session_state.todo_list = [
+        {"task": "Relancer les AO de la veille", "done": False},
+        {"task": "Mettre à jour Salesforce", "done": False}
+    ]
+
+with st.sidebar.form("add_todo", clear_on_submit=True):
+    new_task = st.text_input("Ajouter une tâche...", placeholder="Ex: Rappeler Marc")
+    if st.form_submit_button("Ajouter"):
+        if new_task:
+            st.session_state.todo_list.append({"task": new_task, "done": False})
+            st.rerun()
+
+for i, item in enumerate(st.session_state.todo_list):
+    st.session_state.todo_list[i]['done'] = st.sidebar.checkbox(
+        item['task'], 
+        value=item['done'], 
+        key=f"check_{i}"
+    )
+
+if st.sidebar.button("🗑️ Vider la liste"):
+    st.session_state.todo_list = []
+    st.rerun()
+
+st.sidebar.divider()
+st.sidebar.subheader("💡 Pense-bête")
+st.sidebar.text_area("Notes rapides...", height=200)
+
+# --- CORPS DE L'APPLICATION (GRILLE 4x2) ---
+st.title("🚀
