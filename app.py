@@ -3,7 +3,7 @@ from datetime import datetime
 
 st.set_page_config(page_title="IA Cockpit", layout="wide", page_icon="🚀")
 
-# Style CSS
+# 1. STYLE CSS
 st.markdown("""
 <style>
 .card {
@@ -18,7 +18,7 @@ a { text-decoration: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# SIDEBAR
+# 2. SIDEBAR
 st.sidebar.title("📝 BUREAU")
 if 'list' not in st.session_state:
     st.session_state.list = []
@@ -38,41 +38,21 @@ if st.sidebar.button("Tout vider"):
 
 st.sidebar.text_area("Notes", height=150)
 
-# TITRE
+# 3. TITRE ET RECHERCHE
 st.title("🚀 Sales Cockpit IA")
 st.divider()
 
-# URLs DECOUPÉES (pour éviter les lignes trop longues)
-url1 = "https://cv-optimizer-pro-jjfrcz4bzexfn9y9puerq6.streamlit.app/"
-url2 = "https://freelancevscollab-tcjdkokhjktthqet9emwd2.streamlit.app/"
-url3 = "https://go-nogo-ao-guljf7vfdgd8gwbwk2czss.streamlit.app/"
-url4 = "https://ia-discovery-tool-exipby6qyeqodoryc8p7kj.streamlit.app/"
-url5 = "https://objection-crusher-eickr9egabodnbspah7zgh.streamlit.app/"
-url6 = "https://sales-kpi-tracker-gemm7zlpac7rv5hdkfyesy.streamlit.app/"
-url7 = "https://simulateuria-4geraztakpppefxpsvfp5z.streamlit.app/"
-url8 = "https://account-manager-ia-hwtkfcycxcxcgqtxrhyrez.streamlit.app/"
+st.subheader("🔍 Recherche Rapide")
+col_s1, col_s2 = st.columns(2)
 
-tools = [
-    ("CV Optimizer", "🎯", url1),
-    ("Marge/Rentab", "⚖️", url2),
-    ("Go/No-Go AO", "🚦", url3),
-    ("IA Tool", "🔍", url4),
-    ("Objection", "🛡️", url5),
-    ("KPI Tracker", "📈", url6),
-    ("Simu IA", "🤖", url7),
-    ("Account Mgr", "🤝", url8)
-]
+with col_s1:
+    s_goog = st.text_input("Rechercher sur Google")
+    if s_goog:
+        q_g = s_goog.replace(' ', '+')
+        url_g = f"https://www.google.com/search?q={q_g}"
+        st.markdown(f'[🔎 Lancer Google]({url_g})')
 
-# GRILLE
-c = st.columns(4)
-for i in range(8):
-    with c[i%4]:
-        st.markdown(f"""
-        <a href="{tools[i][2]}" target="_blank">
-            <div class="card">
-                <div class="icon">{tools[i][1]}</div>
-                <div class="title">{tools[i][0]}</div>
-            </div>
-        </a>
-        """, unsafe_allow_html=True)
-        st.write("")
+with col_s2:
+    s_li = st.text_input("Rechercher sur LinkedIn")
+    if s_li:
+        q_li = s_li.replace(' ', '%20')
