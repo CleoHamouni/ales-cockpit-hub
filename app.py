@@ -1,72 +1,51 @@
 import streamlit as st
+import openai
+import pdfplumber
 
-st.set_page_config(page_title="IA Cockpit", layout="wide")
+# Configuration de la page
+st.set_page_config(page_title="Cockpit CV Optimizer", page_icon="🚀", layout="wide")
 
-# CSS
-st.markdown("""<style>
-.card{background:white;padding:10px;border-radius:10px;
-border:1px solid #eee;text-align:center;height:120px;}
-.card:hover{border-color:red;}
-.icon{font-size:25px;}
-.title{font-size:12px;font-weight:bold;}
-a{text-decoration:none!important;color:black;}
-</style>""", unsafe_allow_html=True)
+# Design personnalisé
+st.markdown("""
+    <style>
+    .main { background-color: #f8f9fa; }
+    .stProgress > div > div > div > div { background-color: #ef4444; }
+    .score-box { padding: 20px; border-radius: 10px; text-align: center; color: white; font-weight: bold; font-size: 24px; }
+    </style>
+    """, unsafe_allow_html=True)
 
-# SIDEBAR
-st.sidebar.title("📝 BUREAU")
-if 'list' not in st.session_state: st.session_state.list = []
-new_t = st.sidebar.text_input("Tâche")
-if st.sidebar.button("Ajouter"):
-    if new_t:
-        st.session_state.list.append(new_t)
-        st.rerun()
-for i, x in enumerate(st.session_state.list):
-    st.sidebar.checkbox(x, key=f"t_{i}")
+st.title("🚀 Cockpit d'Analyse CV Pro")
+st.write("Optimisez le matching entre vos candidats et vos offres d'emploi.")
 
-# RECHERCHE
-st.title("🚀 Sales Cockpit")
-c1, c2 = st.columns(2)
-with c1:
-    g = st.text_input("Google")
-    if g:
-        u_g = "https://www.google.com/search?q=" + g.replace(' ', '+')
-        st.markdown(f"[🔎 Go]({u_g})")
-with c2:
-    l = st.text_input("LinkedIn")
-    if l:
-        u_l = "https://www.linkedin.com/search/results/all/?keywords=" + l.replace(' ', '%20')
-        st.markdown(f"[👤 Go]({u_l})")
+# Barre latérale pour la clé API
+with st.sidebar:
+    st.header("🔑 Configuration")
+    api_key = st.text_input("Clé API OpenAI", type="password")
+    st.info("Récupérez votre clé sur platform.openai.com")
 
-st.divider()
+# Zone de saisie
+col1, col2 = st.columns(2)
 
-# APPLIS (DECOUPAGE EXTREME)
-b = "https://"
-s = ".streamlit.app/"
+with col1:
+    st.subheader("📝 L'Offre d'Emploi")
+    job_desc = st.text_area("Collez la fiche de poste ici :", height=250)
 
-# On coupe les liens en morceaux de 20 caracteres
-u1 = b + "cv-optimizer-pro-" + "jjfrcz4bzexfn9y9puerq6" + s
-u2 = b + "freelancevscollab-" + "tcjdkokhjktthqet9emwd2" + s
-u3 = b + "go-nogo-ao-" + "guljf7vfdgd8gwbwk2czss" + s
-u4 = b + "ia-discovery-tool-" + "exipby6qyeqodoryc8p7kj" + s
-u5 = b + "objection-crusher-" + "eickr9egabodnbspah7zgh" + s
-u6 = b + "sales-kpi-tracker-" + "gemm7zlpac7rv5hdkfyesy" + s
-u7 = b + "simulateuria-" + "4geraztakpppefxpsvfp5z" + s
-u8 = b + "account-manager-ia-" + "hwtkfcycxcxcgqtxrhyrez" + s
+with col2:
+    st.subheader("📄 Le CV du Candidat")
+    uploaded_file = st.file_uploader("Chargez le CV (PDF)", type="pdf")
 
-tools = [
-    ("CV Optimizer", "🎯", u1), ("Marge/Rentab", "⚖️", u2),
-    ("Go/No-Go AO", "🚦", u3), ("IA Discovery", "🔍", u4),
-    ("Objection", "🛡️", u5), ("KPI Tracker", "📈", u6),
-    ("Simu Salaire Staffing", "🤖", u7), ("Account Mgr", "🤝", u8)
-]
+if st.button("📊 ANALYSER LE MATCHING"):
+    if not api_key or not job_desc or not uploaded_file:
+        st.error("Veuillez remplir tous les champs et ajouter votre clé API.")
+    else:
+        with st.spinner("Analyse en cours par l'IA..."):
+            try:
+                # 1. Extraction du texte
+                with pdfplumber.open(uploaded_file) as pdf:
+                    resume_text = "".join([page.extract_text() for page in pdf.pages])
 
-# GRILLE
-cols = st.columns(4)
-for i in range(8):
-    with cols[i%4]:
-        st.markdown(f"""<a href="{tools[i][2]}" target="_blank">
-        <div class="card">
-        <div class="icon">{tools[i][1]}</div>
-        <div class="title">{tools[i][0]}</div>
-        </div></a>""", unsafe_allow_html=True)
-        st.write("")
+                # 2. IA OpenAI
+                client = openai.OpenAI(api_key=api_key)
+                prompt = f"""
+                Analyse le matching entre ce CV et cette offre.
+                Offre : {job
