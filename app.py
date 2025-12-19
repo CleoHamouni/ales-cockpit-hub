@@ -1,55 +1,66 @@
 import streamlit as st
 from datetime import datetime
 
-st.set_page_config(page_title="IA Cockpit", layout="wide", page_icon="🚀")
+st.set_page_config(page_title="IA Cockpit", layout="wide")
 
-# 1. STYLE CSS AMÉLIORÉ
-st.markdown("""
-<style>
-.card {
-    background: white; padding: 15px; border-radius: 12px;
-    border: 1px solid #eee; text-align: center; height: 150px;
-    transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; justify-content: center;
-}
-.card:hover { border-color: #ff4b4b; transform: translateY(-3px); }
-.icon { font-size: 30px; margin-bottom: 5px; }
-.title { font-size: 14px; font-weight: bold; color: #31333F; line-height: 1.2; }
-a { text-decoration: none !important; }
-</style>
-""", unsafe_allow_html=True)
+# CSS Minimal
+st.markdown("""<style>
+.card{background:white;padding:15px;border-radius:10px;border:1px solid #eee;text-align:center;height:130px;transition:0.3s;}
+.card:hover{border-color:red;transform:translateY(-3px);}
+.icon{font-size:25px;}
+.title{font-size:13px;font-weight:bold;}
+a{text-decoration:none !important;color:black;}
+</style>""", unsafe_allow_html=True)
 
-# 2. SIDEBAR (To-Do & Notes)
+# SIDEBAR
 st.sidebar.title("📝 BUREAU")
-if 'list' not in st.session_state:
-    st.session_state.list = []
-
-new_t = st.sidebar.text_input("Ajouter tâche")
+if 'list' not in st.session_state: st.session_state.list = []
+new_t = st.sidebar.text_input("Tâche")
 if st.sidebar.button("Ajouter"):
     if new_t:
         st.session_state.list.append(new_t)
         st.rerun()
-
 for i, x in enumerate(st.session_state.list):
     st.sidebar.checkbox(x, key=f"t_{i}")
-
-if st.sidebar.button("Tout vider"):
+if st.sidebar.button("Vider"):
     st.session_state.list = []
     st.rerun()
 
-st.sidebar.text_area("Notes", height=150)
+# RECHERCHE
+st.title("🚀 Sales Cockpit")
+c1, c2 = st.columns(2)
+with c1:
+    g = st.text_input("Google")
+    if g:
+        u_g = "https://www.google.com/search?q=" + g.replace(' ', '+')
+        st.markdown(f"[🔎 Go]({u_g})")
+with c2:
+    l = st.text_input("LinkedIn")
+    if l:
+        u_l = "https://www.linkedin.com/search/results/all/?keywords=" + l.replace(' ', '%20')
+        st.markdown(f"[👤 Go]({u_l})")
 
-# 3. TITRE ET RECHERCHE
-st.title("🚀 Sales Cockpit IA")
+st.divider()
 
-col_s1, col_s2 = st.columns(2)
-with col_s1:
-    s_goog = st.text_input("Rechercher sur Google")
-    if s_goog:
-        url_g = f"https://www.google.com/search?q={s_goog.replace(' ', '+')}"
-        st.markdown(f'[🔎 Lancer Google]({url_g})')
+# APPLIS (Liens découpés pour éviter la coupure)
+base = "https://"
+u1 = base + "cv-optimizer-pro-jjfrcz4bzexfn9y9puerq6.streamlit.app/"
+u2 = base + "freelancevscollab-tcjdkokhjktthqet9emwd2.streamlit.app/"
+u3 = base + "go-nogo-ao-guljf7vfdgd8gwbwk2czss.streamlit.app/"
+u4 = base + "ia-discovery-tool-exipby6qyeqodoryc8p7kj.streamlit.app/"
+u5 = base + "objection-crusher-eickr9egabodnbspah7zgh.streamlit.app/"
+u6 = base + "sales-kpi-tracker-gemm7zlpac7rv5hdkfyesy.streamlit.app/"
+u7 = base + "simulateuria-4geraztakpppefxpsvfp5z.streamlit.app/"
+u8 = base + "account-manager-ia-hwtkfcycxcxcgqtxrhyrez.streamlit.app/"
 
-with col_s2:
-    s_li = st.text_input("Rechercher sur LinkedIn")
-    if s_li:
-        url_li = f"https://www
+tools = [
+    ("CV Optimizer", "🎯", u1), ("Marge/Rentab", "⚖️", u2),
+    ("Go/No-Go AO", "🚦", u3), ("IA Discovery", "🔍", u4),
+    ("Objection", "🛡️", u5), ("KPI Tracker", "📈", u6),
+    ("Simu Salaire Staffing", "🤖", u7), ("Account Mgr", "🤝", u8)
+]
+
+# GRILLE
+cols = st.columns(4)
+for i in range(8):
+    with cols[i%4]:
